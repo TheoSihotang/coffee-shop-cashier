@@ -1,4 +1,4 @@
-package com.theo.cafe_cashier.dto.request;
+package com.theo.cafe_cashier.dto.request.menu;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

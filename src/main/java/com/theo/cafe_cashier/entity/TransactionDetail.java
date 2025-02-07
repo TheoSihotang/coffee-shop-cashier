@@ -20,12 +20,12 @@ public class TransactionDetail {
     @Column(name = "qty", nullable = false)
     private Integer qty;
 
-    @Column(name = "total_price")
-    private Long totalPrice;
-
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "menu_id", nullable = false)
-    private List<Menu> menuId;
+    private Menu menuId;
+
+    @Column(name = "menu_price")
+    private Long menuPrice;
 
     @ManyToOne
     @JoinColumn(name = "trx_id")

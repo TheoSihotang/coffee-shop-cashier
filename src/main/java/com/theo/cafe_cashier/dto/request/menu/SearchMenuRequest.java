@@ -1,4 +1,4 @@
-package com.theo.cafe_cashier.dto.request;
+package com.theo.cafe_cashier.dto.request.menu;
 
 import lombok.*;
 

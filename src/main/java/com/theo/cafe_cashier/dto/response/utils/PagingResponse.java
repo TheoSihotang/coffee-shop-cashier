@@ -1,4 +1,4 @@
-package com.theo.cafe_cashier.dto.response;
+package com.theo.cafe_cashier.dto.response.utils;
 
 import lombok.*;
 

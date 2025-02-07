@@ -2,9 +2,9 @@ package com.theo.cafe_cashier.service.impl;
 
 import com.theo.cafe_cashier.constant.ApiUrl;
 import com.theo.cafe_cashier.constant.ResponseMessage;
-import com.theo.cafe_cashier.dto.request.CreateMenuRequest;
-import com.theo.cafe_cashier.dto.request.SearchMenuRequest;
-import com.theo.cafe_cashier.dto.request.UpdateMenuRequest;
+import com.theo.cafe_cashier.dto.request.menu.CreateMenuRequest;
+import com.theo.cafe_cashier.dto.request.menu.SearchMenuRequest;
+import com.theo.cafe_cashier.dto.request.menu.UpdateMenuRequest;
 import com.theo.cafe_cashier.dto.response.ImageResponse;
 import com.theo.cafe_cashier.dto.response.MenuResponse;
 import com.theo.cafe_cashier.entity.Image;
@@ -66,8 +66,13 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuResponse findOne(String id) {
-        Menu menu = menuRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ResponseMessage.ERROR_NOT_FOUND));
+        Menu menu = getOne(id);
         return convertToMenuResponse(menu);
+    }
+
+    @Override
+    public Menu getOne(String id) {
+        return menuRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ResponseMessage.ERROR_NOT_FOUND));
     }
 
     public Menu findById(String id) {
