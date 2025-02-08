@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TransactionDtlServiceImpl implements TransactionDtlService {
@@ -17,5 +18,10 @@ public class TransactionDtlServiceImpl implements TransactionDtlService {
     @Override
     public List<TransactionDetail> createBulk(List<TransactionDetail> transactionDetails) {
         return repository.saveAllAndFlush(transactionDetails);
+    }
+
+    @Override
+    public List<TransactionDetail> getAll() {
+        return repository.findAll();
     }
 }

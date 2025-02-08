@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TransactionRepository extends JpaRepository<Transaction, String>, JpaSpecificationExecutor<TransactionDetail> {
+public interface TransactionRepository extends JpaRepository<Transaction, String>, JpaSpecificationExecutor<Transaction> {
 
     @Query(value = "select * from tb_trx order by queue_number DESC LIMIT 1", nativeQuery = true)
     Transaction getQueue();
