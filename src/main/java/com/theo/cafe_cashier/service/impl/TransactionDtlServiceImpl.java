@@ -19,9 +19,4 @@ public class TransactionDtlServiceImpl implements TransactionDtlService {
     public List<TransactionDetail> createBulk(List<TransactionDetail> transactionDetails) {
         return repository.saveAllAndFlush(transactionDetails);
     }
-
-    @Override
-    public List<TransactionDetail> getAll() {
-        return repository.findAll();
-    }
 }

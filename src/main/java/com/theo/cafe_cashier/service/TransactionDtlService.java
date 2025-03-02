@@ -7,5 +7,4 @@ import java.util.List;
 @Service
 public interface TransactionDtlService {
     List<TransactionDetail> createBulk(List<TransactionDetail> transactionDetails);
-    List<TransactionDetail> getAll();
 }

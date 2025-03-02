@@ -1,5 +1,6 @@
 package com.theo.cafe_cashier.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.theo.cafe_cashier.constant.TableConstant;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,6 +28,7 @@ public class TransactionDetail {
     @Column(name = "menu_price")
     private Long menuPrice;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "trx_id")
     private Transaction transactionId;

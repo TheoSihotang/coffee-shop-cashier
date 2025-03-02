@@ -4,7 +4,6 @@ import com.theo.cafe_cashier.dto.request.transaction.SearchTransactionRequest;
 import com.theo.cafe_cashier.entity.Transaction;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 public class TransactionSpecification {
-    public static Specification<Transaction> getSpecification(SearchTransactionRequest request){
+    public static Specification<Transaction> getSpecification(SearchTransactionRequest request) {
         return (root, query, criteriaBuilder) -> {
 
             List<Predicate> predicates = new ArrayList<>();
@@ -27,7 +26,7 @@ public class TransactionSpecification {
                 Date tempDate = new Date();
                 try {
                     tempDate = sdf.parse(request.getDate());
-                } catch (ParseException e){
+                } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
                 Predicate date = criteriaBuilder.equal(root.get("date"), tempDate);

@@ -14,10 +14,7 @@ import com.theo.cafe_cashier.service.TransactionDtlService;
 import com.theo.cafe_cashier.service.TransactionService;
 import com.theo.cafe_cashier.specification.TransactionSpecification;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -86,7 +83,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .trxDate(transaction.getDate())
                 .queueNumber(transaction.getQueueNumber())
                 .amount(amount)
-                .trxDtlResponses(dtlResponses)
+                .trxDetails(dtlResponses)
                 .build();
     }
 
@@ -98,27 +95,25 @@ public class TransactionServiceImpl implements TransactionService {
         Sort sort = Sort.by(Sort.Direction.fromString(request.getDirection()), request.getSortBy());
         Pageable pageable = PageRequest.of((request.getPage() - 1), request.getSize(), sort);
         Page<Transaction> all = transactionRepository.findAll(specification, pageable);
-        List<TransactionDetail> res = transactionDtlService.getAll();
-        List<TransactionDtlResponse> dtlResponses = res.stream().map(trxDtl -> {
-            return TransactionDtlResponse.builder()
-                    .trxDtlId(trxDtl.getId())
-                    .menuName(trxDtl.getMenuId().getName())
-                    .menuPrice(trxDtl.getMenuPrice())
-                    .quantity(trxDtl.getQty())
-                    .build();
-        }).toList();
-        long amount = dtlResponses.stream().mapToLong(value -> value.getMenuPrice() * value.getQuantity()).sum();
-
-        return all.map((transaction) ->
-            TransactionResponse
-                    .builder()
-                    .trxId(transaction.getId())
-                    .trxDate(transaction.getDate())
-                    .queueNumber(transaction.getQueueNumber())
-                    .trxDtlResponses(dtlResponses)
+        return all.map(trx -> {
+            long amount = trx.getTransactionDetails().stream().mapToLong(value -> value.getMenuPrice() * value.getQty()).sum();
+            List<TransactionDtlResponse> responses = trx.getTransactionDetails().stream().map(details -> {
+                return TransactionDtlResponse.builder()
+                        .trxDtlId(details.getId())
+                        .menuName(details.getMenuId().getName())
+                        .menuPrice(details.getMenuPrice())
+                        .quantity(details.getQty())
+                        .build();
+            }).toList();
+            return TransactionResponse.builder()
+                    .trxId(trx.getId())
+                    .queueNumber(trx.getQueueNumber())
+                    .trxDate(trx.getDate())
+                    .trxDetails(responses)
                     .amount(amount)
-                    .build()
-        );
+                    .build();
+        });
+//        return new PageImpl<>(trxResponses, pageable, all.getTotalElements()); //bisa menggunakan cara ini juga
     }
 
 

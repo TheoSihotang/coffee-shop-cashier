@@ -1,6 +1,7 @@
 package com.theo.cafe_cashier.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.theo.cafe_cashier.constant.TableConstant;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,6 +20,10 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private UserAccount userAccountId;
+
     @Column(name = "date_trx")
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Jakarta")
@@ -27,6 +32,7 @@ public class Transaction {
     @Column(name = "queue_number")
     private Long queueNumber;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "transactionId") // mapped by digunakan jika ingin koneksi dua arah
     private List<TransactionDetail> transactionDetails;
 }
