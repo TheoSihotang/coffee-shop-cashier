@@ -17,4 +17,9 @@ public class ResponseMessage {
     public static final String SUCCESS_CREATE_NEW_TRANSACTION = "Successfully create new transaction";
     public static final String ERROR_CREATE_TOKEN = "Error while generate token";
     public static final String ACCOUNT_NOT_FOUND = "Account not found";
+    public static final String SUCCESS_REGISTRATION = "Successfully registration new account";
+    public static final String SUCCESS_LOGIN = "Successfully login";
+    public static final String FOREIGN_KEY_CONSTRAINT = "You can't update a column in a parent table (if you have a constraint on it) that has a foreign key linked to it as this will result in orphaned row.";
+    public static final String UNIQUE_KEY_CONSTRAINT = "Duplicate data, the data already exists";
+    public static final String ERROR_FORBIDDEN = "can't access this resource";
 }

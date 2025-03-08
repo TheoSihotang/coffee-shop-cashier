@@ -1,5 +1,6 @@
 package com.theo.cafe_cashier.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.theo.cafe_cashier.constant.TableConstant;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -26,8 +28,11 @@ public class UserAccount implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "full_name")
-    private String fullName;
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -46,13 +51,15 @@ public class UserAccount implements UserDetails {
     @Column(name = "is_enabled")
     private Boolean isEnabled;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<UserRole> roles;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    @JsonBackReference
+    private UserRole role;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRole().name())).toList();
+        return Collections.singleton(new SimpleGrantedAuthority(role.getRole().toString()));
     }
 
     @Override

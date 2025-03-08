@@ -29,12 +29,12 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public UserAccount getByContext() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return userAccountRepository.findByUsername(authentication.getPrincipal().toString()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ResponseMessage.ACCOUNT_NOT_FOUND));
+        return userAccountRepository.findByEmail(authentication.getPrincipal().toString()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ResponseMessage.ACCOUNT_NOT_FOUND));
     }
 
     @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userAccountRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        return userAccountRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
     }
 }

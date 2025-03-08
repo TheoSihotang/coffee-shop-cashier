@@ -13,11 +13,13 @@ import com.theo.cafe_cashier.service.JwtService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -25,12 +27,15 @@ public class JwtServiceImpl implements JwtService {
 
     private final String SECRET_KEY;
     private final String JWT_ISSUER;
+    private final Long EXPIRATION_TOKEN;
 
     public JwtServiceImpl(@Value(value = "${cashier.app.jwt.secret.key}") String secretKey,
-                          @Value(value = "${cashier.app.jwt.issuer}") String jwtIssuer)
+                          @Value(value = "${cashier.app.jwt.issuer}") String jwtIssuer,
+                          @Value(value = "${cashier.app.jwt.expirationInSecond}") Long expirationToken)
     {
         SECRET_KEY = secretKey;
         JWT_ISSUER = jwtIssuer;
+        EXPIRATION_TOKEN = expirationToken;
     }
 
     @Override
@@ -39,9 +44,9 @@ public class JwtServiceImpl implements JwtService {
             Algorithm algorithm = Algorithm.HMAC512(SECRET_KEY);
             return JWT.create()
                     .withSubject(userAccount.getId())
-                    .withClaim("roles", userAccount.getAuthorities().stream().map(role -> new SimpleGrantedAuthority(role.getAuthority())).toList())
+                    .withClaim("roles", userAccount.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
                     .withIssuedAt(Instant.now())
-                    .withExpiresAt(Instant.now().plusSeconds(60 * 15))
+                    .withExpiresAt(Instant.now().plusSeconds(EXPIRATION_TOKEN))
                     .withIssuer(JWT_ISSUER)
                     .sign(algorithm);
 
