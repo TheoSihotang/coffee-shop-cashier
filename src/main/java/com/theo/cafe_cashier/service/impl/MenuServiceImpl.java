@@ -13,6 +13,7 @@ import com.theo.cafe_cashier.repository.MenuRepository;
 import com.theo.cafe_cashier.service.ImageService;
 import com.theo.cafe_cashier.service.MenuService;
 import com.theo.cafe_cashier.specification.MenuSpecification;
+import com.theo.cafe_cashier.utils.ValidatorUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,9 +29,11 @@ import org.springframework.web.server.ResponseStatusException;
 public class MenuServiceImpl implements MenuService {
     private final MenuRepository menuRepository;
     private final ImageService imageService;
+    private final ValidatorUtil validatorUtil;
 
     @Override
     public MenuResponse save(CreateMenuRequest request) {
+        validatorUtil.validate(request);
         Menu menu = Menu.builder()
                 .name(request.getName())
                 .price(request.getPrice())

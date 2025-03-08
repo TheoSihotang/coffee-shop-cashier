@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class CommonResponse<T> {
     private String message;
-    private String statusCode;
+    private Integer statusCode;
     private T data;
     private PagingResponse paging;
 }

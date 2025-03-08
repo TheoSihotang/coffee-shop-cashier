@@ -30,7 +30,7 @@ public class TransactionController {
     public ResponseEntity<CommonResponse<TransactionResponse>> createTransaction(@RequestBody CreateTransactionRequest request){
         TransactionResponse transaction = transactionService.save(request);
         CommonResponse<TransactionResponse> response = CommonResponse.<TransactionResponse>builder()
-                .statusCode(HttpStatus.CREATED.name())
+                .statusCode(HttpStatus.CREATED.value())
                 .message(ResponseMessage.SUCCESS_CREATE_NEW_TRANSACTION)
                 .data(transaction)
                 .build();
@@ -70,7 +70,7 @@ public class TransactionController {
                 .hasPrevious(all.hasPrevious())
                 .build();
         CommonResponse<List<TransactionResponse>> response = CommonResponse.<List<TransactionResponse>>builder()
-                .statusCode(HttpStatus.OK.name())
+                .statusCode(HttpStatus.OK.value())
                 .message(ResponseMessage.SUCCESS_GET_ALL_DATA)
                 .data(all.getContent())
                 .paging(pagingResponse)

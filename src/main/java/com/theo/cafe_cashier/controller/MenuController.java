@@ -41,12 +41,12 @@ public class MenuController {
             request.setImage(image);
             MenuResponse save = menuService.save(request);
             builder.message(ResponseMessage.SUCCESS_CREATE_MENU);
-            builder.statusCode(HttpStatus.CREATED.name());
+            builder.statusCode(HttpStatus.CREATED.value());
             builder.data(save);
             return  ResponseEntity.status(HttpStatus.CREATED).body(builder.build());
         } catch (Exception e){
             builder.message(ResponseMessage.INTERNAL_SERVER_ERROR);
-            builder.statusCode(HttpStatus.INTERNAL_SERVER_ERROR.name());
+            builder.statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(builder.build());
         }
     }
@@ -79,7 +79,7 @@ public class MenuController {
                 .build();
         CommonResponse<List<MenuResponse>> build = CommonResponse.<List<MenuResponse>>builder()
                 .message(ResponseMessage.SUCCESS_GET_ALL_DATA)
-                .statusCode(HttpStatus.OK.name())
+                .statusCode(HttpStatus.OK.value())
                 .data(allMenu.getContent())
                 .paging(pagingResponse)
                 .build();
@@ -102,12 +102,12 @@ public class MenuController {
             request.setImage(image);
             MenuResponse save = menuService.update(request);
             builder.message(ResponseMessage.SUCCESS_UPDATE_MENU);
-            builder.statusCode(HttpStatus.CREATED.name());
+            builder.statusCode(HttpStatus.CREATED.value());
             builder.data(save);
             return  ResponseEntity.status(HttpStatus.CREATED).body(builder.build());
         } catch (Exception e){
             builder.message(ResponseMessage.INTERNAL_SERVER_ERROR);
-            builder.statusCode(HttpStatus.INTERNAL_SERVER_ERROR.name());
+            builder.statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(builder.build());
         }
     }
@@ -116,7 +116,7 @@ public class MenuController {
     public ResponseEntity<CommonResponse<String>> deleteMenu(@PathVariable String id){
         menuService.delete(id);
         CommonResponse<String> builder = CommonResponse.<String>builder()
-                .statusCode(HttpStatus.OK.name())
+                .statusCode(HttpStatus.OK.value())
                 .message(ResponseMessage.SUCCESS_DELETE_DATA)
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(builder);
@@ -127,7 +127,7 @@ public class MenuController {
         MenuResponse menuResponse = menuService.updateStatusReadyOrNot(id);
         CommonResponse<MenuResponse> build = CommonResponse.<MenuResponse>builder()
                 .message(ResponseMessage.SUCCESS_UPDATE_MENU)
-                .statusCode(HttpStatus.OK.name())
+                .statusCode(HttpStatus.OK.value())
                 .data(menuResponse)
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(build);

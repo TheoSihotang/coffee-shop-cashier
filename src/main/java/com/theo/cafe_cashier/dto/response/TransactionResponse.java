@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class TransactionResponse {
     private String trxId;
+    private String customerId;
     private Long queueNumber;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Jakarta")
     private Date trxDate;
